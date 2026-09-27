@@ -1,0 +1,73 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g. v1.0.0 or 1.0.0)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Tag and Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4
+        with:
+          fetch-depth: 0
+          ref: master
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Tag master with version
+        id: create_tag
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          TAG="${VERSION}"
+          echo "Release tag: ${TAG}"
+          echo "TAG=${TAG}" >> "$GITHUB_ENV"
+
+          # Verify tag does not already exist
+          if git rev-parse -q --verify "refs/tags/${TAG}" >/dev/null; then
+            echo "Error: Tag '${TAG}' already exists." >&2
+            exit 1
+          fi
+
+          # Tag the current HEAD of master
+          git tag -a "${TAG}" -m "Release ${TAG}"
+          git push origin "${TAG}"
+
+      - name: Merge tag into latest branch
+        run: |
+          # Check if remote 'latest' branch already exists
+          if git ls-remote --exit-code --heads origin latest >/dev/null 2>&1; then
+            echo "Branch 'latest' exists on remote. Checking out and merging..."
+            git checkout latest
+            git pull origin latest
+            git merge --no-edit "${TAG}" -m "Merge tag '${TAG}' into latest"
+          else
+            echo "Branch 'latest' does not exist yet. Creating from '${TAG}'..."
+            git checkout -b latest "${TAG}"
+          fi
+
+          # Push latest branch to remote
+          git push origin latest
+
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${TAG}" \
+            --title "Release ${TAG}" \
+            --generate-notes

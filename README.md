@@ -78,3 +78,16 @@ Because `fetch()` is used to load `bookmarks.json`, running via a simple HTTP se
    - **Source**: `Deploy from a branch`
    - **Branch**: `main` (or `master`), folder: `/ (root)`
 4. Click **Save**. Your site will be live at `https://<username>.github.io/<repo-name>/`.
+
+## 📦 Creating a Release
+
+This repository includes an automated release workflow via GitHub Actions:
+
+1. Navigate to the **Actions** tab in GitHub.
+2. Select the **Release** workflow in the left sidebar.
+3. Click **Run workflow**.
+4. Enter the desired version number (e.g. `v1.0.0` or `1.0.0`).
+5. Click **Run workflow**:
+   - The workflow creates an annotated tag on `master`.
+   - Merges the tagged release into the `latest` branch.
+   - Publishes a GitHub Release with auto-generated release notes.
