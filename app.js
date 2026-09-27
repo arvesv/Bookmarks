@@ -420,8 +420,44 @@
     });
   }
 
+  // Load Version & Commit SHA Metadata
+  async function loadVersion() {
+    const versionBadgeEl = document.getElementById('versionBadge');
+    if (!versionBadgeEl) return;
+
+    try {
+      const res = await fetch('./version.json');
+      if (!res.ok) return;
+      const data = await res.json();
+      if (!data) return;
+
+      const tag = data.tag || '';
+      const sha = data.sha || (data.fullSha ? data.fullSha.slice(0, 7) : '');
+      const url = data.commitUrl || (sha ? `https://github.com/arvesv/Bookmarks/commit/${data.fullSha || sha}` : '#');
+
+      let html = '';
+      if (tag) {
+        html += `<span class="version-tag">${escapeHtml(tag)}</span>`;
+      }
+      if (tag && sha) {
+        html += `<span class="version-dot">&bull;</span>`;
+      }
+      if (sha) {
+        html += `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" title="View commit on GitHub">#${escapeHtml(sha)}</a>`;
+      }
+
+      if (html) {
+        versionBadgeEl.innerHTML = html;
+        versionBadgeEl.style.display = 'inline-flex';
+      }
+    } catch {
+      // Ignore if version.json is missing or inaccessible in local testing
+    }
+  }
+
   // Initialization
   initTheme();
   setupEventListeners();
   loadBookmarks();
+  loadVersion();
 })();

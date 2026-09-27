@@ -564,6 +564,45 @@ footer a:hover {
   text-decoration: underline;
 }
 
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.version-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  background: var(--tag-bg);
+  border: 1px solid var(--border-color);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.version-badge a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.version-badge a:hover {
+  text-decoration: underline;
+}
+
+.version-tag {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.version-dot {
+  opacity: 0.4;
+}
+
 @media (max-width: 640px) {
   .header-top {
     flex-direction: column;

@@ -49,6 +49,8 @@ jobs:
           git push origin "${TAG}"
 
       - name: Merge tag into latest branch
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
           # Check if remote 'latest' branch already exists
           if git ls-remote --exit-code --heads origin latest >/dev/null 2>&1; then
@@ -60,6 +62,26 @@ jobs:
             echo "Branch 'latest' does not exist yet. Creating from '${TAG}'..."
             git checkout -b latest "${TAG}"
           fi
+
+          # Extract commit SHA from tagged commit
+          export TAG_COMMIT_SHA=$(git rev-parse --short "${TAG}")
+          export TAG_COMMIT_FULL_SHA=$(git rev-parse "${TAG}")
+
+          # Generate version.json
+          node -e "
+            const fs = require('fs');
+            const data = {
+              tag: process.env.TAG,
+              sha: process.env.TAG_COMMIT_SHA,
+              fullSha: process.env.TAG_COMMIT_FULL_SHA,
+              commitUrl: 'https://github.com/' + process.env.GITHUB_REPOSITORY + '/commit/' + process.env.TAG_COMMIT_FULL_SHA,
+              date: new Date().toISOString()
+            };
+            fs.writeFileSync('version.json', JSON.stringify(data, null, 2) + '\n');
+          "
+
+          git add version.json
+          git commit -m "chore(release): update version.json for ${TAG} (${TAG_COMMIT_SHA})" || true
 
           # Push latest branch to remote
           git push origin latest
