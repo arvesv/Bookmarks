@@ -47,6 +47,9 @@ jobs:
 
           git checkout master
 
+          export TAG="${VERSION}"
+          export VERSION="${VERSION}"
+
           # Extract commit SHA from master HEAD before release commit
           export RELEASE_COMMIT_SHA=$(git rev-parse --short HEAD)
           export RELEASE_COMMIT_FULL_SHA=$(git rev-parse HEAD)
@@ -55,6 +58,7 @@ jobs:
           node -e "
             const fs = require('fs');
             const data = {
+              version: process.env.VERSION,
               tag: process.env.TAG,
               sha: process.env.RELEASE_COMMIT_SHA,
               fullSha: process.env.RELEASE_COMMIT_FULL_SHA,

@@ -394,15 +394,15 @@
       const data = await res.json();
       if (!data) return;
 
-      const tag = data.tag || '';
+      const version = data.version || data.tag || '';
       const sha = data.sha || (data.fullSha ? data.fullSha.slice(0, 7) : '');
       const url = data.commitUrl || (sha ? `https://github.com/arvesv/Bookmarks/commit/${data.fullSha || sha}` : '#');
 
       let html = '';
-      if (tag) {
-        html += `<span class="version-tag">${escapeHtml(tag)}</span>`;
+      if (version) {
+        html += `<span class="version-tag">${escapeHtml(version)}</span>`;
       }
-      if (tag && sha) {
+      if (version && sha) {
         html += `<span class="version-dot">&bull;</span>`;
       }
       if (sha) {
