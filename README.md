@@ -88,6 +88,6 @@ This repository includes an automated release workflow via GitHub Actions:
 3. Click **Run workflow**.
 4. Enter the desired version number (e.g. `v1.0.0` or `1.0.0`).
 5. Click **Run workflow**:
-   - The workflow creates an annotated tag on `master`.
+   - The workflow updates `version.json` on `master` and creates an annotated tag.
    - Merges the tagged release into the `latest` branch.
    - Publishes a GitHub Release with auto-generated release notes.
