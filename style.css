@@ -472,6 +472,34 @@ main {
   background-color: var(--tag-bg);
 }
 
+.bookmark-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.clicks-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-sm);
+  background: var(--tag-bg);
+  cursor: default;
+  user-select: none;
+  transition: var(--transition);
+}
+
+.clicks-badge svg {
+  opacity: 0.65;
+}
+
+.bookmark-card:hover .clicks-badge {
+  color: var(--text-secondary);
+}
+
 /* Empty State */
 .empty-state {
   text-align: center;

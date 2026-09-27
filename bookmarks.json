@@ -11,25 +11,29 @@
           "title": "GitHub",
           "url": "https://github.com",
           "description": "Hosting, collaboration, and version control platform for software projects.",
-          "tags": ["git", "code", "dev"]
+          "tags": ["git", "code", "dev"],
+          "clicks": 0
         },
         {
           "title": "MDN Web Docs",
           "url": "https://developer.mozilla.org",
           "description": "Comprehensive resources and documentation for open web standards.",
-          "tags": ["web", "javascript", "css", "html"]
+          "tags": ["web", "javascript", "css", "html"],
+          "clicks": 0
         },
         {
           "title": "Stack Overflow",
           "url": "https://stackoverflow.com",
           "description": "Q&A platform for professional and enthusiast programmers.",
-          "tags": ["community", "q&a", "help"]
+          "tags": ["community", "q&a", "help"],
+          "clicks": 0
         },
         {
           "title": "DevDocs",
           "url": "https://devdocs.io",
           "description": "Fast, offline-capable documentation browser for multiple programming languages and APIs.",
-          "tags": ["docs", "api", "reference"]
+          "tags": ["docs", "api", "reference"],
+          "clicks": 0
         }
       ]
     },
@@ -42,19 +46,22 @@
           "title": "Google AI Studio",
           "url": "https://aistudio.google.com",
           "description": "Fast web-based prototyping environment for experimenting with Gemini models.",
-          "tags": ["ai", "gemini", "google", "llm"]
+          "tags": ["ai", "gemini", "google", "llm"],
+          "clicks": 0
         },
         {
           "title": "Hugging Face",
           "url": "https://huggingface.co",
           "description": "Community hub for open-source AI models, datasets, and ML demos.",
-          "tags": ["ai", "models", "open-source"]
+          "tags": ["ai", "models", "open-source"],
+          "clicks": 0
         },
         {
           "title": "ChatGPT",
           "url": "https://chatgpt.com",
           "description": "Conversational AI assistant for writing, coding, and brainstorming.",
-          "tags": ["ai", "assistant", "productivity"]
+          "tags": ["ai", "assistant", "productivity"],
+          "clicks": 0
         }
       ]
     },
@@ -67,25 +74,29 @@
           "title": "Figma",
           "url": "https://www.figma.com",
           "description": "Collaborative web-based interface design and prototyping tool.",
-          "tags": ["ui", "ux", "design"]
+          "tags": ["ui", "ux", "design"],
+          "clicks": 0
         },
         {
           "title": "Lucide Icons",
           "url": "https://lucide.dev",
           "description": "Beautiful, lightweight, and customizable open-source icon library.",
-          "tags": ["icons", "svg", "ui"]
+          "tags": ["icons", "svg", "ui"],
+          "clicks": 0
         },
         {
           "title": "Can I use...",
           "url": "https://caniuse.com",
           "description": "Browser support tables for modern frontend web technologies.",
-          "tags": ["browser", "css", "compatibility"]
+          "tags": ["browser", "css", "compatibility"],
+          "clicks": 0
         },
         {
           "title": "Coolors",
           "url": "https://coolors.co",
           "description": "Super-fast color schemes and palette generator.",
-          "tags": ["colors", "palette", "design"]
+          "tags": ["colors", "palette", "design"],
+          "clicks": 0
         }
       ]
     },
@@ -98,25 +109,29 @@
           "title": "Regex101",
           "url": "https://regex101.com",
           "description": "Regular expression tester and debugger with syntax highlighting and explanation.",
-          "tags": ["regex", "testing", "utility"]
+          "tags": ["regex", "testing", "utility"],
+          "clicks": 0
         },
         {
           "title": "JSON Crack",
           "url": "https://jsoncrack.com",
           "description": "Visualize JSON data into interactive graphs and diagrams seamlessly.",
-          "tags": ["json", "visualizer", "tools"]
+          "tags": ["json", "visualizer", "tools"],
+          "clicks": 0
         },
         {
           "title": "Transform Tools",
           "url": "https://transform.tools",
           "description": "Polyglot code converter for JSON to TypeScript, GraphQL, CSS, and more.",
-          "tags": ["converter", "typescript", "tools"]
+          "tags": ["converter", "typescript", "tools"],
+          "clicks": 0
         },
         {
           "title": "Squoosh",
           "url": "https://squoosh.app",
           "description": "Browser-based image compression and optimization utility by Google Chrome Labs.",
-          "tags": ["images", "compression", "web"]
+          "tags": ["images", "compression", "web"],
+          "clicks": 0
         }
       ]
     }

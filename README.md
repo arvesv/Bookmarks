@@ -39,7 +39,8 @@ Open [`bookmarks.json`](bookmarks.json) and add an entry under the desired categ
   "title": "Example Site",
   "url": "https://example.com",
   "description": "Short explanation of why this link is useful.",
-  "tags": ["tools", "reference"]
+  "tags": ["tools", "reference"],
+  "clicks": 0
 }
 ```
 

@@ -28,7 +28,8 @@
     check: `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`,
     sun: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`,
     moon: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`,
-    bookmarkFallback: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%2394a3b8"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>`
+    clicks: `<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 15l6 6m-6-6v4.5m0-4.5h4.5M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"></path></svg>`,
+    bookmarkFallback: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzk0YTNiOCI+PHBhdGggZD0iTTE5IDIxbC03LTUtNyA1VjVhMiAyIDAgMCAxIDItMmgxMGEyIDIgMCAwIDEgMiAyeiIvPjwvc3ZnPg=='
   };
 
   // Theme Management
@@ -255,12 +256,15 @@
       category.bookmarks.forEach(bm => {
         const domain = getDomain(bm.url);
         const favicon = getFaviconUrl(bm.url);
+        const baseClicks = typeof bm.clicks === 'number' ? bm.clicks : 0;
+        const localClicks = parseInt(localStorage.getItem('clicks_' + bm.url) || '0', 10);
+        const totalClicks = baseClicks + localClicks;
 
         html += `
           <div class="bookmark-card">
-            <a href="${escapeHtml(bm.url)}" target="_blank" rel="noopener noreferrer" style="text-decoration:none; color:inherit; display:block; flex:1;">
+            <a class="bookmark-link" href="${escapeHtml(bm.url)}" target="_blank" rel="noopener noreferrer" style="text-decoration:none; color:inherit; display:block; flex:1;">
               <div class="bookmark-top">
-                <img class="bookmark-favicon" src="${escapeHtml(favicon)}" alt="" loading="lazy" onerror="this.src='${ICONS.bookmarkFallback}'; this.onerror=null;" />
+                <img class="bookmark-favicon" src="${escapeHtml(favicon)}" alt="" loading="lazy" />
                 <div class="bookmark-title-wrap">
                   <div class="bookmark-title">
                     <span>${escapeHtml(bm.title)}</span>
@@ -277,9 +281,15 @@
                   <button type="button" class="tag-badge ${activeTag === t ? 'active' : ''}" data-tag="${escapeHtml(t)}">#${escapeHtml(t)}</button>
                 `).join('')}
               </div>
-              <button type="button" class="copy-btn" data-url="${escapeHtml(bm.url)}" title="Copy link to clipboard">
-                ${ICONS.copy}
-              </button>
+              <div class="bookmark-actions">
+                <span class="clicks-badge" title="Clicked ${totalClicks} time${totalClicks === 1 ? '' : 's'}">
+                  ${ICONS.clicks}
+                  <span class="clicks-count" data-url="${escapeHtml(bm.url)}" data-base="${baseClicks}">${totalClicks}</span>
+                </span>
+                <button type="button" class="copy-btn" data-url="${escapeHtml(bm.url)}" title="Copy link to clipboard">
+                  ${ICONS.copy}
+                </button>
+              </div>
             </div>
           </div>
         `;
@@ -292,6 +302,26 @@
     });
 
     bookmarksContainer.innerHTML = html;
+
+    // Attach Link Click Handlers to increment and persist clicks locally
+    bookmarksContainer.querySelectorAll('.bookmark-link').forEach(link => {
+      link.addEventListener('click', () => {
+        const url = link.getAttribute('href');
+        const currentLocal = parseInt(localStorage.getItem('clicks_' + url) || '0', 10);
+        const nextLocal = currentLocal + 1;
+        localStorage.setItem('clicks_' + url, nextLocal);
+        const counterEl = link.closest('.bookmark-card')?.querySelector('.clicks-count');
+        if (counterEl) {
+          const base = parseInt(counterEl.getAttribute('data-base') || '0', 10);
+          const updated = base + nextLocal;
+          counterEl.textContent = updated;
+          const badge = counterEl.closest('.clicks-badge');
+          if (badge) {
+            badge.title = `Clicked ${updated} time${updated === 1 ? '' : 's'}`;
+          }
+        }
+      });
+    });
 
     // Attach Tag Click Handlers
     bookmarksContainer.querySelectorAll('.tag-badge').forEach(btn => {
@@ -361,6 +391,15 @@
     // Theme Toggle
     if (themeToggleBtn) {
       themeToggleBtn.addEventListener('click', toggleTheme);
+    }
+
+    // Favicon Fallback Handler
+    if (bookmarksContainer) {
+      bookmarksContainer.addEventListener('error', (e) => {
+        if (e.target && e.target.classList.contains('bookmark-favicon')) {
+          e.target.src = ICONS.bookmarkFallback;
+        }
+      }, true);
     }
 
     // Keyboard Shortcuts
