@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A curated directory of useful bookmarks and developer resources.">
+  <title>Useful Bookmarks</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔖</text></svg>">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="header-top">
+        <div class="header-title-wrap">
+          <span class="site-icon">🔖</span>
+          <div>
+            <h1 id="siteTitle">Useful Bookmarks</h1>
+            <p id="siteSubtitle" class="subtitle">A curated collection of developer tools and web resources.</p>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <button id="themeToggleBtn" class="theme-toggle-btn" aria-label="Toggle dark/light theme" title="Toggle theme">
+            <span id="themeIcon"></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Search Box -->
+      <div class="search-container">
+        <span class="search-icon">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </span>
+        <input 
+          type="text" 
+          id="searchInput" 
+          class="search-input" 
+          placeholder="Search bookmarks by title, tag, or description... (Press '/' to focus)" 
+          autocomplete="off" 
+          spellcheck="false"
+        />
+        <span class="search-shortcut-hint">/</span>
+        <button id="clearSearchBtn" class="clear-search-btn" aria-label="Clear search query" title="Clear">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <nav id="navFilters" class="nav-filters" aria-label="Bookmark categories">
+        <!-- Rendered dynamically -->
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="container">
+    <!-- Notice / Error Banner -->
+    <div id="alertBanner" class="alert-banner" role="alert"></div>
+
+    <!-- Active Filter & Stats Bar -->
+    <div class="stats-bar">
+      <span id="countStats">Loading bookmarks...</span>
+      <span id="activeFilterInfo"></span>
+    </div>
+
+    <!-- Bookmarks Grid Container -->
+    <div id="bookmarksContainer">
+      <!-- Rendered dynamically -->
+    </div>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="empty-state" style="display: none;">
+      <div class="empty-icon">🔍</div>
+      <h3 class="empty-title">No bookmarks found</h3>
+      <p class="empty-desc">Try searching with different keywords or clearing active filters.</p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>Published with ❤️ via GitHub Pages &bull; Edit <code>bookmarks.json</code> to update links.</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

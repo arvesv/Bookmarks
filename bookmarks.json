@@ -1,0 +1,124 @@
+{
+  "title": "Useful Bookmarks",
+  "subtitle": "A curated collection of developer tools, documentation, and web resources.",
+  "categories": [
+    {
+      "id": "development",
+      "name": "Development & Code",
+      "icon": "💻",
+      "bookmarks": [
+        {
+          "title": "GitHub",
+          "url": "https://github.com",
+          "description": "Hosting, collaboration, and version control platform for software projects.",
+          "tags": ["git", "code", "dev"]
+        },
+        {
+          "title": "MDN Web Docs",
+          "url": "https://developer.mozilla.org",
+          "description": "Comprehensive resources and documentation for open web standards.",
+          "tags": ["web", "javascript", "css", "html"]
+        },
+        {
+          "title": "Stack Overflow",
+          "url": "https://stackoverflow.com",
+          "description": "Q&A platform for professional and enthusiast programmers.",
+          "tags": ["community", "q&a", "help"]
+        },
+        {
+          "title": "DevDocs",
+          "url": "https://devdocs.io",
+          "description": "Fast, offline-capable documentation browser for multiple programming languages and APIs.",
+          "tags": ["docs", "api", "reference"]
+        }
+      ]
+    },
+    {
+      "id": "ai-tools",
+      "name": "AI & Machine Learning",
+      "icon": "🤖",
+      "bookmarks": [
+        {
+          "title": "Google AI Studio",
+          "url": "https://aistudio.google.com",
+          "description": "Fast web-based prototyping environment for experimenting with Gemini models.",
+          "tags": ["ai", "gemini", "google", "llm"]
+        },
+        {
+          "title": "Hugging Face",
+          "url": "https://huggingface.co",
+          "description": "Community hub for open-source AI models, datasets, and ML demos.",
+          "tags": ["ai", "models", "open-source"]
+        },
+        {
+          "title": "ChatGPT",
+          "url": "https://chatgpt.com",
+          "description": "Conversational AI assistant for writing, coding, and brainstorming.",
+          "tags": ["ai", "assistant", "productivity"]
+        }
+      ]
+    },
+    {
+      "id": "design",
+      "name": "Design & Frontend",
+      "icon": "🎨",
+      "bookmarks": [
+        {
+          "title": "Figma",
+          "url": "https://www.figma.com",
+          "description": "Collaborative web-based interface design and prototyping tool.",
+          "tags": ["ui", "ux", "design"]
+        },
+        {
+          "title": "Lucide Icons",
+          "url": "https://lucide.dev",
+          "description": "Beautiful, lightweight, and customizable open-source icon library.",
+          "tags": ["icons", "svg", "ui"]
+        },
+        {
+          "title": "Can I use...",
+          "url": "https://caniuse.com",
+          "description": "Browser support tables for modern frontend web technologies.",
+          "tags": ["browser", "css", "compatibility"]
+        },
+        {
+          "title": "Coolors",
+          "url": "https://coolors.co",
+          "description": "Super-fast color schemes and palette generator.",
+          "tags": ["colors", "palette", "design"]
+        }
+      ]
+    },
+    {
+      "id": "tools-utilities",
+      "name": "Tools & Utilities",
+      "icon": "🛠️",
+      "bookmarks": [
+        {
+          "title": "Regex101",
+          "url": "https://regex101.com",
+          "description": "Regular expression tester and debugger with syntax highlighting and explanation.",
+          "tags": ["regex", "testing", "utility"]
+        },
+        {
+          "title": "JSON Crack",
+          "url": "https://jsoncrack.com",
+          "description": "Visualize JSON data into interactive graphs and diagrams seamlessly.",
+          "tags": ["json", "visualizer", "tools"]
+        },
+        {
+          "title": "Transform Tools",
+          "url": "https://transform.tools",
+          "description": "Polyglot code converter for JSON to TypeScript, GraphQL, CSS, and more.",
+          "tags": ["converter", "typescript", "tools"]
+        },
+        {
+          "title": "Squoosh",
+          "url": "https://squoosh.app",
+          "description": "Browser-based image compression and optimization utility by Google Chrome Labs.",
+          "tags": ["images", "compression", "web"]
+        }
+      ]
+    }
+  ]
+}
