@@ -9,8 +9,10 @@ This repo is published directly using GitHub Pages.
 ## 🌟 Features
 
 - **Dynamic Content**: All links and categories are defined in [`bookmarks.json`](bookmarks.json).
+- **Mobile-Friendly Top-Clicked View**: Dedicated lightweight mobile view ([`mobile.html`](mobile.html)) and "Top Clicked" filter listing bookmarks with the most clicked on top.
 - **Search & Filter**: Real-time search across titles, descriptions, URLs, tags, and categories.
 - **Tag Filtering**: Click any `#tag` to immediately isolate matching resources.
+- **Click Tracking**: Tracks bookmark clicks with local persistence across sessions.
 - **Automatic System Theme**: Seamlessly adapts to system dark or light mode preferences.
 - **Copy Link**: One-click URL copying with visual feedback.
 - **Responsive Design**: Clean layout that adapts seamlessly to desktop, tablet, and mobile screens.
@@ -23,9 +25,13 @@ This repo is published directly using GitHub Pages.
 ```text
 Bookmarks/
 ├── bookmarks.json   # JSON file containing all bookmarks, categories, and tags
-├── index.html       # Static HTML entry point
-├── style.css        # Stylesheet with automatic system theme support
-├── app.js           # Client-side script to fetch JSON and render UI
+├── index.html       # Full desktop & categorized view
+├── style.css        # Core stylesheet with automatic system theme support
+├── app.js           # Client-side script to render full UI
+├── mobile.html      # Mobile-friendly view with most clicked on top
+├── mobile.css       # Mobile-specific layout and touch optimizations
+├── mobile.js        # Controller for mobile list and click ranking
+├── version.json     # Release version and commit metadata
 ├── README.md        # Project documentation
 └── LICENSE          # Project license
 ```
