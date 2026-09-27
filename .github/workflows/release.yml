@@ -29,10 +29,11 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Tag master with version
-        id: create_tag
+      - name: Update version.json on master
+        id: update_version
         env:
           VERSION: ${{ inputs.version }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
           TAG="${VERSION}"
           echo "Release tag: ${TAG}"
@@ -44,44 +45,47 @@ jobs:
             exit 1
           fi
 
-          # Tag the current HEAD of master
-          git tag -a "${TAG}" -m "Release ${TAG}"
-          git push origin "${TAG}"
+          git checkout master
 
-      - name: Merge tag into latest branch
-        env:
-          GITHUB_REPOSITORY: ${{ github.repository }}
-        run: |
-          # Check if remote 'latest' branch already exists
-          if git ls-remote --exit-code --heads origin latest >/dev/null 2>&1; then
-            echo "Branch 'latest' exists on remote. Checking out and merging..."
-            git checkout latest
-            git pull origin latest
-            git merge --no-edit "${TAG}" -m "Merge tag '${TAG}' into latest"
-          else
-            echo "Branch 'latest' does not exist yet. Creating from '${TAG}'..."
-            git checkout -b latest "${TAG}"
-          fi
-
-          # Extract commit SHA from tagged commit
-          export TAG_COMMIT_SHA=$(git rev-parse --short "${TAG}")
-          export TAG_COMMIT_FULL_SHA=$(git rev-parse "${TAG}")
+          # Extract commit SHA from master HEAD before release commit
+          export RELEASE_COMMIT_SHA=$(git rev-parse --short HEAD)
+          export RELEASE_COMMIT_FULL_SHA=$(git rev-parse HEAD)
 
           # Generate version.json
           node -e "
             const fs = require('fs');
             const data = {
               tag: process.env.TAG,
-              sha: process.env.TAG_COMMIT_SHA,
-              fullSha: process.env.TAG_COMMIT_FULL_SHA,
-              commitUrl: 'https://github.com/' + process.env.GITHUB_REPOSITORY + '/commit/' + process.env.TAG_COMMIT_FULL_SHA,
+              sha: process.env.RELEASE_COMMIT_SHA,
+              fullSha: process.env.RELEASE_COMMIT_FULL_SHA,
+              commitUrl: 'https://github.com/' + process.env.GITHUB_REPOSITORY + '/commit/' + process.env.RELEASE_COMMIT_FULL_SHA,
               date: new Date().toISOString()
             };
             fs.writeFileSync('version.json', JSON.stringify(data, null, 2) + '\n');
           "
 
           git add version.json
-          git commit -m "chore(release): update version.json for ${TAG} (${TAG_COMMIT_SHA})" || true
+          git commit -m "chore(release): update version.json for ${TAG} (${RELEASE_COMMIT_SHA})"
+          git push origin master
+
+      - name: Tag release on master
+        run: |
+          # Tag the release commit on master
+          git tag -a "${TAG}" -m "Release ${TAG}"
+          git push origin "${TAG}"
+
+      - name: Merge release into latest branch
+        run: |
+          # Check if remote 'latest' branch already exists
+          if git ls-remote --exit-code --heads origin latest >/dev/null 2>&1; then
+            echo "Branch 'latest' exists on remote. Checking out and merging..."
+            git checkout latest
+            git pull origin latest
+            git merge -X theirs --no-edit "${TAG}" -m "Merge tag '${TAG}' into latest"
+          else
+            echo "Branch 'latest' does not exist yet. Creating from '${TAG}'..."
+            git checkout -b latest "${TAG}"
+          fi
 
           # Push latest branch to remote
           git push origin latest
