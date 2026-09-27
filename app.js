@@ -103,6 +103,10 @@
         <span>All</span>
         <span class="filter-badge">${totalCount}</span>
       </button>
+      <button class="filter-btn ${activeCategory === 'top-clicked' ? 'active' : ''}" data-category="top-clicked" title="List all bookmarks with most clicked on top">
+        <span>🔥 Top Clicked</span>
+        <span class="filter-badge">${totalCount}</span>
+      </button>
     `;
 
     bookmarksData.categories.forEach(cat => {
@@ -131,6 +135,54 @@
     if (!bookmarksData || !bookmarksData.categories) return [];
 
     const query = searchQuery.trim().toLowerCase();
+
+    // Top Clicked view: flat list sorted by clicks descending
+    if (activeCategory === 'top-clicked') {
+      const allBookmarks = [];
+      bookmarksData.categories.forEach(cat => {
+        (cat.bookmarks || []).forEach(bm => {
+          allBookmarks.push({
+            ...bm,
+            categoryName: cat.name,
+            categoryIcon: cat.icon || '📁'
+          });
+        });
+      });
+
+      const filtered = allBookmarks.filter(item => {
+        if (activeTag && !(item.tags && item.tags.includes(activeTag))) {
+          return false;
+        }
+
+        if (query) {
+          const matchTitle = item.title && item.title.toLowerCase().includes(query);
+          const matchDesc = item.description && item.description.toLowerCase().includes(query);
+          const matchUrl = item.url && item.url.toLowerCase().includes(query);
+          const matchTag = item.tags && item.tags.some(t => t.toLowerCase().includes(query));
+          const matchCat = item.categoryName && item.categoryName.toLowerCase().includes(query);
+
+          if (!matchTitle && !matchDesc && !matchUrl && !matchTag && !matchCat) {
+            return false;
+          }
+        }
+
+        return true;
+      });
+
+      filtered.sort((a, b) => {
+        const clicksA = (typeof a.clicks === 'number' ? a.clicks : 0) + parseInt(localStorage.getItem('clicks_' + a.url) || '0', 10);
+        const clicksB = (typeof b.clicks === 'number' ? b.clicks : 0) + parseInt(localStorage.getItem('clicks_' + b.url) || '0', 10);
+        if (clicksB !== clicksA) return clicksB - clicksA;
+        return (a.title || '').localeCompare(b.title || '');
+      });
+
+      return filtered.length > 0 ? [{
+        id: 'top-clicked',
+        name: 'Most Clicked Bookmarks',
+        icon: '🔥',
+        bookmarks: filtered
+      }] : [];
+    }
 
     return bookmarksData.categories.map(cat => {
       // Filter by category
@@ -394,15 +446,15 @@
       const data = await res.json();
       if (!data) return;
 
-      const tag = data.tag || '';
+      const version = data.version || data.tag || '';
       const sha = data.sha || (data.fullSha ? data.fullSha.slice(0, 7) : '');
       const url = data.commitUrl || (sha ? `https://github.com/arvesv/Bookmarks/commit/${data.fullSha || sha}` : '#');
 
       let html = '';
-      if (tag) {
-        html += `<span class="version-tag">${escapeHtml(tag)}</span>`;
+      if (version) {
+        html += `<span class="version-tag">${escapeHtml(version)}</span>`;
       }
-      if (tag && sha) {
+      if (version && sha) {
         html += `<span class="version-dot">&bull;</span>`;
       }
       if (sha) {
