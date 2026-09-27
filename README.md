@@ -11,7 +11,7 @@ This repo is published directly using GitHub Pages.
 - **Dynamic Content**: All links and categories are defined in [`bookmarks.json`](bookmarks.json).
 - **Search & Filter**: Real-time search across titles, descriptions, URLs, tags, and categories.
 - **Tag Filtering**: Click any `#tag` to immediately isolate matching resources.
-- **Dark / Light Mode**: Automatically adapts to system preferences with manual toggle stored in local storage.
+- **Automatic System Theme**: Seamlessly adapts to system dark or light mode preferences.
 - **Copy Link**: One-click URL copying with visual feedback.
 - **Responsive Design**: Clean layout that adapts seamlessly to desktop, tablet, and mobile screens.
 - **Keyboard Shortcuts**:
@@ -24,7 +24,7 @@ This repo is published directly using GitHub Pages.
 Bookmarks/
 ├── bookmarks.json   # JSON file containing all bookmarks, categories, and tags
 ├── index.html       # Static HTML entry point
-├── style.css        # Styles and dark/light themes
+├── style.css        # Stylesheet with automatic system theme support
 ├── app.js           # Client-side script to fetch JSON and render UI
 ├── README.md        # Project documentation
 └── LICENSE          # Project license
